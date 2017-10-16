@@ -14,6 +14,7 @@ public interface CommandBuilder {
     CommandBuilder copyVideoCodec();
     CommandBuilder crop(int x, int y, int width, int height);
     CommandBuilder customCommand(String customCommand);
+    CommandBuilder customCommand(String customCommand, boolean splitOnce);
     CommandBuilder limitVideoBitrate(String bitrate);
     CommandBuilder experimentalFlag();
     CommandBuilder limitFrameRate(int framerate);

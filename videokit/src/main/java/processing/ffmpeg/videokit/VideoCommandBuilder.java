@@ -99,11 +99,21 @@ class VideoCommandBuilder implements CommandBuilder {
 
     @Override
     public CommandBuilder customCommand(String customCommand) {
+        return this.customCommand(customCommand, false);
+    }
+
+    @Override
+    public CommandBuilder customCommand(String customCommand, boolean splitOnce) {
         if (TextUtils.isEmpty(customCommand)) {
             return this;
         }
 
-        final String[] splitedCommand = customCommand.trim().split(" ");
+        String[] splitedCommand;
+        if (splitOnce) {
+            splitedCommand  = customCommand.trim().split(" ", 1);
+        } else {
+            splitedCommand = customCommand.trim().split(" ");
+        }
         Collections.addAll(flags, splitedCommand);
         return this;
     }
