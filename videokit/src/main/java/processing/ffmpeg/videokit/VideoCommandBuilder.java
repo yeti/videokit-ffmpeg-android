@@ -108,12 +108,12 @@ class VideoCommandBuilder implements CommandBuilder {
             return this;
         }
 
-        String[] splitedCommand;
+        int limit = 0;
         if (splitOnce) {
-            splitedCommand  = customCommand.trim().split(" ", 1);
-        } else {
-            splitedCommand = customCommand.trim().split(" ");
+            limit = 2;
         }
+
+        final String[] splitedCommand = customCommand.trim().split(" ", limit);
         Collections.addAll(flags, splitedCommand);
         return this;
     }
