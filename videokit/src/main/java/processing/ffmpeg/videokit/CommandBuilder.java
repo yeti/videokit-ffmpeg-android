@@ -7,6 +7,7 @@ package processing.ffmpeg.videokit;
 @SuppressWarnings("unused")
 public interface CommandBuilder {
     CommandBuilder overwriteOutput();
+    CommandBuilder inputFlag(String inputCommand, boolean splitOnce);
     CommandBuilder inputPath(String inputFilePath);
     CommandBuilder outputPath(String outputPath);
     CommandBuilder trimForDuration(int startPosition, int duration);

@@ -28,6 +28,7 @@ class VideoCommandBuilder implements CommandBuilder {
     private static final String FAST_DECODE = "fastdecode";
     private static final String ZERO_LATENCY = "zerolatency";
 
+    private final List<String> inputFlags = new ArrayList<>();
     private final List<String> flags = new ArrayList<>();
 
     private final VideoKit videoKit;
@@ -44,6 +45,22 @@ class VideoCommandBuilder implements CommandBuilder {
     @Override
     public CommandBuilder overwriteOutput() {
         flags.add(OVERWRITE_FLAG);
+        return this;
+    }
+
+    @Override
+    public CommandBuilder inputFlag(String inputCommand, boolean splitOnce) {
+        if (TextUtils.isEmpty(inputCommand)) {
+            return this;
+        }
+
+        int limit = 0;
+        if (splitOnce) {
+            limit = 2;
+        }
+
+        final String[] splitedCommand = inputCommand.trim().split(" ", limit);
+        Collections.addAll(inputFlags, splitedCommand);
         return this;
     }
 
@@ -158,6 +175,7 @@ class VideoCommandBuilder implements CommandBuilder {
 
         final List<String> newFlags = new ArrayList<>();
 
+        copyInputFlagsToNewDestination(newFlags);
         addInputPathsToFlags(newFlags);
         copyFlagsToNewDestination(newFlags);
         addExperimentalFlagIfNecessary(newFlags);
@@ -183,6 +201,12 @@ class VideoCommandBuilder implements CommandBuilder {
         for (String path : inputPaths) {
             flags.add(INPUT_FILE_FLAG);
             flags.add(path);
+        }
+    }
+
+    private void copyInputFlagsToNewDestination(List<String> destination) {
+        for (String flag : inputFlags) {
+            destination.add(flag);
         }
     }
 
